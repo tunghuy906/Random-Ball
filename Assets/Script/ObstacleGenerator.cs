@@ -1,39 +1,36 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ObstacleGenerator : MonoBehaviour
 {
-	public GameObject[] obstaclePrefab;
 	public GameObject[] coinPrefabs;
 	public Transform player;
 	public Vector3 spawnPosition;
 
-	public float coinChance = 0.3f;
-	public float distanceBetweenObstacle = 15f;
+	public float distanceBetweenCoin = 50f;     // coin thưa hơn
 	public float horizonDistance = 200f;
 
+	public float spawnRate = 0.5f;              // 50% khả năng spawn coin
 
 	void Update()
 	{
-		
 		float distance = Vector3.Distance(player.position, spawnPosition);
 
-		if(distance < horizonDistance)
+		if (distance < horizonDistance)
 		{
+			// Random lane
 			int x = Random.Range(-3, 4);
-			spawnPosition = new Vector3(x, 0.5f, spawnPosition.z + distanceBetweenObstacle);
 
-			if(Random.value < coinChance)
-			{
-				spawnPosition.y = 0.6f;
-				GameObject coinPrefab = coinPrefabs[Random.Range(0, coinPrefabs.Length)];
-				Instantiate(coinPrefab, spawnPosition, Quaternion.identity);
-			}
-			else
-			{
-				GameObject obstanclePrefab = obstaclePrefab[Random.Range(0, obstaclePrefab.Length)];
-				Instantiate(obstanclePrefab, spawnPosition, Quaternion.identity);
-			}
+			// Cập nhật vị trí mới
+			spawnPosition = new Vector3(x, 0.6f, spawnPosition.z + distanceBetweenCoin);
 
+			// 50% không spawn → coin tách thưa tự nhiên
+			if (Random.value > spawnRate)
+				return;
+
+			// Random 1 coin prefab
+			GameObject coinPrefab = coinPrefabs[Random.Range(0, coinPrefabs.Length)];
+
+			Instantiate(coinPrefab, spawnPosition, Quaternion.identity);
 		}
 	}
 }

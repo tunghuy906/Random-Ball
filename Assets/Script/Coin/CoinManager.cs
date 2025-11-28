@@ -1,8 +1,12 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CoinManager : MonoBehaviour
 {
 	public static CoinManager instance;
+
+	public TextMeshProUGUI txtCoin;
 
 	private int totalCoins = 0;
 
@@ -21,6 +25,7 @@ public class CoinManager : MonoBehaviour
 	public void AddCoin(int amount)
 	{
 		totalCoins += amount;
-		Debug.Log("Coin : " + totalCoins);
+		
+		txtCoin.text = totalCoins.ToString();
 	}
 }
